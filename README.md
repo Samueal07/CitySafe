@@ -1,5 +1,6 @@
 # **CitySafe: Predicting Crime Rates in Indian Cities**
 
+![alt text](./readmeImg/image-4.png)
 CitySafe is an AI-powered tool designed to predict crime rates across 19 major metropolitan cities in India. It helps law enforcement agencies and policy makers allocate resources efficiently and improve public safety.
 
 ## 🔍 **Features**
@@ -7,8 +8,11 @@ CitySafe is an AI-powered tool designed to predict crime rates across 19 major m
 - **Crime Rate Prediction** for 10 crime categories (e.g., murder, kidnapping, crimes against women)
 - **Coverage of 19 Indian Cities** with data from 2014 to 2021
 - **Map Visualization** to showcase crime intensity in different areas
+  ![alt text](./readmeImg/image-1.png)
 - **News Section** providing real-time updates on crime-related news
+  ![alt text](./readmeImg/image-3.png)
 - **Algorithm Performance Report** showing comparison metrics for model accuracy
+  ![alt text](./readmeImg/image.png)
 
 ## 📊 **Machine Learning Model**
 
@@ -30,7 +34,7 @@ Follow these steps to set up and run the application locally.
 1. **Clone the repository**:
 
    ```bash
-   git clone
+   git clone https://github.com/Samueal07/CitySafe.git
    ```
 
 2. **Navigate to the project directory**:
