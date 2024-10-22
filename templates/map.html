@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crime Intensity Map</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <style>
+      #map {
+        height: 600px;
+        width: 100%;
+      }
+      /* Style for the info box */
+      .info {
+        padding: 6px 8px;
+        font: 14px/16px Arial, sans-serif;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Crime Intensity by Area</h1>
+    </header>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+      // Initialize the map
+      var map = L.map("map").setView([20.5937, 78.9629], 5); // India's lat/lon
+
+      // Add the OpenStreetMap tiles
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+      }).addTo(map);
+
+      // Crime data with coordinates for different cities
+      var crimeData = [
+        { city: "Ahmedabad", lat: 23.0225, lon: 72.5714, crime_rate: 3 },
+        { city: "Bengaluru", lat: 12.9716, lon: 77.5946, crime_rate: 5 },
+        { city: "Chennai", lat: 13.0827, lon: 80.2707, crime_rate: 7 },
+        { city: "Coimbatore", lat: 11.0168, lon: 76.9558, crime_rate: 4 },
+        { city: "Delhi", lat: 28.7041, lon: 77.1025, crime_rate: 20 },
+        { city: "Ghaziabad", lat: 28.6692, lon: 77.4538, crime_rate: 6 },
+        { city: "Hyderabad", lat: 17.385, lon: 78.4867, crime_rate: 8 },
+        { city: "Indore", lat: 22.7196, lon: 75.8577, crime_rate: 5 },
+        { city: "Jaipur", lat: 26.9124, lon: 75.7873, crime_rate: 6 },
+        { city: "Kanpur", lat: 26.4499, lon: 80.3319, crime_rate: 4 },
+        { city: "Kochi", lat: 9.9312, lon: 76.2673, crime_rate: 2 },
+        { city: "Kolkata", lat: 22.5726, lon: 88.3639, crime_rate: 8 },
+        { city: "Kozhikode", lat: 11.2588, lon: 75.7804, crime_rate: 3 },
+        { city: "Lucknow", lat: 26.8467, lon: 80.9462, crime_rate: 7 },
+        { city: "Mumbai", lat: 19.076, lon: 72.8777, crime_rate: 15 },
+        { city: "Nagpur", lat: 21.1458, lon: 79.0882, crime_rate: 6 },
+        { city: "Patna", lat: 25.5941, lon: 85.1376, crime_rate: 4 },
+        { city: "Pune", lat: 18.5204, lon: 73.8567, crime_rate: 6 },
+        { city: "Surat", lat: 21.1702, lon: 72.8311, crime_rate: 5 },
+      ];
+
+      // Function to determine the color based on crime rate
+      function getColor(crime_rate) {
+        return crime_rate > 15
+          ? "red"
+          : crime_rate > 10
+          ? "orange"
+          : crime_rate > 5
+          ? "yellow"
+          : "green";
+      }
+
+      // Add markers to the map
+      crimeData.forEach(function (city) {
+        var marker = L.circle([city.lat, city.lon], {
+          color: getColor(city.crime_rate),
+          fillColor: getColor(city.crime_rate),
+          fillOpacity: 0.5,
+          radius: city.crime_rate * 10000,
+        }).bindPopup(`${city.city}: Crime Rate ${city.crime_rate}`);
+
+        // Add click event to zoom in on the city and show stats
+        marker.on("click", function () {
+          map.setView([city.lat, city.lon], 10); // Zoom in on the city
+          marker.openPopup(); // Open the popup with stats
+        });
+
+        marker.addTo(map);
+      });
+
+      // Create an info box
+      var info = L.control({ position: "topright" });
+
+      info.onAdd = function (map) {
+        this._div = L.DomUtil.create("div", "info");
+        this.update();
+        return this._div;
+      };
+
+      info.update = function (cityStats) {
+        this._div.innerHTML = cityStats
+          ? `<h4>${cityStats.city}</h4><p>Crime Rate: ${cityStats.crime_rate}</p>`
+          : "Hover over a city";
+      };
+
+      info.addTo(map);
+
+      // Add hover effect to show city stats
+      crimeData.forEach(function (city) {
+        var marker = L.circle([city.lat, city.lon], {
+          color: getColor(city.crime_rate),
+          fillColor: getColor(city.crime_rate),
+          fillOpacity: 0.5,
+          radius: city.crime_rate * 10000,
+        });
+
+        marker.on("mouseover", function () {
+          info.update({ city: city.city, crime_rate: city.crime_rate });
+        });
+
+        marker.on("mouseout", function () {
+          info.update();
+        });
+
+        marker.addTo(map);
+      });
+    </script>
+  </body>
+</html>

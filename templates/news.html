@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crime News</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .news-article {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      .news-article h2 {
+        font-size: 18px;
+        margin: 0 0 5px 0;
+      }
+      .news-article p {
+        margin: 5px 0;
+      }
+      .news-article img {
+        max-width: 100%; /* Make images responsive */
+        height: auto;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center my-4">Crime News in Indian Cities</h1>
+
+      <div class="form-group">
+        <label for="citySelect">Select City:</label>
+        <select id="citySelect" class="form-control">
+          <option value="">All Cities</option>
+          <option value="Ahmedabad">Ahmedabad</option>
+          <option value="Bengaluru">Bengaluru</option>
+          <option value="Chennai">Chennai</option>
+          <option value="Coimbatore">Coimbatore</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Ghaziabad">Ghaziabad</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Indore">Indore</option>
+          <option value="Jaipur">Jaipur</option>
+          <option value="Kanpur">Kanpur</option>
+          <option value="Kochi">Kochi</option>
+          <option value="Kolkata">Kolkata</option>
+          <option value="Kozhikode">Kozhikode</option>
+          <option value="Lucknow">Lucknow</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Nagpur">Nagpur</option>
+          <option value="Patna">Patna</option>
+          <option value="Pune">Pune</option>
+          <option value="Surat">Surat</option>
+        </select>
+      </div>
+
+      <div id="newsContainer"></div>
+    </div>
+
+    <script>
+      const apiKey = "143716419f1241a0ac09f7a77e3f1576"; // Replace with your News API key
+      const newsContainer = document.getElementById("newsContainer");
+      const citySelect = document.getElementById("citySelect");
+
+      // Fetch news articles for the selected city
+      async function fetchCrimeNews(city = "") {
+        newsContainer.innerHTML = ""; // Clear previous news
+        const cities = [
+          "Ahmedabad",
+          "Bengaluru",
+          "Chennai",
+          "Coimbatore",
+          "Delhi",
+          "Ghaziabad",
+          "Hyderabad",
+          "Indore",
+          "Jaipur",
+          "Kanpur",
+          "Kochi",
+          "Kolkata",
+          "Kozhikode",
+          "Lucknow",
+          "Mumbai",
+          "Nagpur",
+          "Patna",
+          "Pune",
+          "Surat",
+        ];
+
+        for (const c of cities) {
+          if (city && c !== city) continue; // Skip if city is not selected
+
+          const response = await fetch(
+            `https://newsapi.org/v2/everything?q=${c}+crime&apiKey=${apiKey}`
+          );
+          const data = await response.json();
+
+          if (data.articles && data.articles.length > 0) {
+            data.articles.forEach((article) => {
+              const articleDiv = document.createElement("div");
+              articleDiv.classList.add("news-article");
+
+              articleDiv.innerHTML = `
+                            ${
+                              article.urlToImage
+                                ? `<img src="${article.urlToImage}" alt="News Image" />`
+                                : ""
+                            }
+                            <h2>${article.title}</h2>
+                            <p>${article.description || ""}</p>
+                            <a href="${
+                              article.url
+                            }" target="_blank" class="btn btn-primary">Read more</a>
+                        `;
+              newsContainer.appendChild(articleDiv);
+            });
+          } else {
+            const noNewsDiv = document.createElement("div");
+            noNewsDiv.classList.add("news-article");
+            noNewsDiv.innerHTML = `<p>No news found for ${c}.</p>`;
+            newsContainer.appendChild(noNewsDiv);
+          }
+        }
+      }
+
+      // Event listener for city selection
+      citySelect.addEventListener("change", (event) => {
+        const selectedCity = event.target.value;
+        fetchCrimeNews(selectedCity);
+      });
+
+      // Initial fetch for all cities
+      fetchCrimeNews();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

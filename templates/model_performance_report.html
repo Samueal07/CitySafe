@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Performance Metrics</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto mt-10">
+      <h1 class="text-3xl font-bold text-center mb-8">
+        Model Performance Metrics
+      </h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <img
+            src="static/images/performance_mae.png"
+            class="w-full h-48 object-cover"
+            alt="MAE Performance"
+          />
+          <div class="p-4">
+            <h5 class="font-semibold">Mean Absolute Error (MAE)</h5>
+            <p>This graph displays the MAE for each model.</p>
+          </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <img
+            src="static/images/performance_mse.png"
+            class="w-full h-48 object-cover"
+            alt="MSE Performance"
+          />
+          <div class="p-4">
+            <h5 class="font-semibold">Mean Squared Error (MSE)</h5>
+            <p>This graph displays the MSE for each model.</p>
+          </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <img
+            src="static/images/performance_r2.png"
+            class="w-full h-48 object-cover"
+            alt="R² Performance"
+          />
+          <div class="p-4">
+            <h5 class="font-semibold">R² Score</h5>
+            <p>This graph displays the R² score for each model.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8">
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <img
+      src="static/images/performance_comparison.png"
+      class="w-full h-auto object-cover"
+      alt="Comparison of Performance"
+    />
+    <div class="p-4">
+      <h5 class="font-semibold">Model Performance Comparison</h5>
+      <p>This graph compares all metrics for the models side by side.</p>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+  </body>
+</html>
